@@ -2,7 +2,7 @@
 
 #*******************************************************
 # BSD license:
-# Copyright 2026, Dr. Christoph Mayer, Nikita Kulikov, Dr. Iker Irisarri LIB, Bonn/Hamburg, Germany
+# Copyright 2026, Dr. Christoph Mayer, LIB Bonn, Germany
 # See License.txt for the full license text.
 #*******************************************************
 

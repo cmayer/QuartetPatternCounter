@@ -44,7 +44,7 @@ setup(
     description='Site pattern frequencies of all quartets of sequences in a multiple sequence alignment',
     long_description=(HERE / 'README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
-    author='Christoph Mayer, Nikita Kulikov, Iker Irisarri',
+    author='Christoph Mayer',
     url='https://github.com/cmayer/QuartetPatternCounter',
     license='BSD-3-Clause',
     python_requires='>=3.8',

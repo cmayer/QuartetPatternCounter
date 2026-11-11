@@ -1,4 +1,4 @@
-// Copyright 2026, Dr. Christoph Mayer, Nikita Kulikov, Dr. Iker Irisarri LIB, Bonn/Hamburg, Germany
+// Copyright 2026, Dr. Christoph Mayer, LIB Bonn, Germany
 // License: see License.txt
 
 // quartet-pattern-counter v1.8, stand-alone program
