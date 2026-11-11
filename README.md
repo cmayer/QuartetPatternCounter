@@ -1,11 +1,15 @@
-# Quartet Pattern Counter
+# Quartet Pattern Counter (QPC)
 
-Author: Christoph Mayer, Leibniz Insitute or the analysis of biodiversity change
+Author: Christoph Mayer, Leibniz Institute for the Analysis of Biodiversity Change
 Version 1.8
 
-The Quartet Pattern Counter computes site pattern frequencies of quartets of sequences in a multiple sequence alignment. For every quartet combination (four sequences of the alignment) it returns the relative frequencies of all 256 (DNA) or 160000 (protein) site patterns.
+The Quartet Pattern Counter determines site pattern frequencies of quartets
+of sequences. Sequences are provided as multiple sequence alignments in the FASTA format.
+It can determine site pattern frequencies for every quartet combination (four sequences of the alignment)
+or for a selected subset of quartets. It returns the relative frequencies for all possible site patterns,
+i.e. 4⁴=256 for DNA or 20⁴=160000 for amino acid sequences.
 
-It is a C++17 library with Python bindings (pybind11). There is also a stand-alone program for alignments of exactly four sequences.
+It is a **C++17** library with **Python bindings (pybind11)**. There is also a **stand-alone program** for input files with exactly four sequences.
 
 License: BSD 3-clause, see [License.txt](License.txt).
 
@@ -13,7 +17,7 @@ License: BSD 3-clause, see [License.txt](License.txt).
 
 The QPC has the following different applicaitons.
 
-### Stand alone program for counting all site pattern frequences of given four sequences in a fasta file
+### Stand alone program for counting all site pattern frequencies of given four sequences in a fasta file
 
 
 ### C++ library and Python bindings for counting site pattern frequencies for all combinations of four sequences in a fasta file 
