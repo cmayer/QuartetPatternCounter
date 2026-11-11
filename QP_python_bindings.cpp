@@ -296,6 +296,10 @@ public:
 
 PYBIND11_MODULE(QuartetPatternCounterModule, m) {
     m.doc() = "High-performance computation module with stateful processing";
+    m.attr("__version__") = QPC_VERSION;
+    // Order of the symbols used for the columns of the frequency arrays.
+    m.attr("DNA_PATTERN_ORDER") = "ACGT";
+    m.attr("AA_PATTERN_ORDER")  = "ACDEFGHIKLMNPQRSTVWY";
     
     // Expose the QuartetPatternCounter class
     py::class_<PyQuartetPatternCounter>(m, "QuartetPatternCounter")

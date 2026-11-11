@@ -1,7 +1,7 @@
 # Quartet Pattern Counter
 
 Author: Christoph Mayer, Leibniz Insitute or the analysis of biodiversity change
-Version 1.8
+Version 1.8.0
 
 The Quartet Pattern Counter computes site pattern frequencies of quartets of sequences in a multiple sequence alignment. For every quartet combination (four sequences of the alignment) it returns the relative frequencies of all 256 (DNA) or 160000 (protein) site patterns.
 
@@ -58,14 +58,30 @@ The site pattern (x1, x2, x3, x4), with xi the symbol of sequence si, is stored 
 
 Requirements: a C++17 compiler. For the Python module also Python 3, pybind11 and numpy.
 
+Install the Python module with pip (pip installs pybind11 and numpy if needed):
+
+```bash
+pip install .
+```
+
+Or use make:
+
 ```bash
 make standalone      # Stand-alone program quartet-pattern-counter
-make python          # Python module QuartetPatternCounterModule (calls setup.py)
+make python          # Python module QuartetPatternCounterModule in this folder (calls setup.py)
 make run_test_skip   # C++ tests, no test framework needed
 make run_catch2_tests  # Catch2 tests
 make all             # Python module and the Catch2 test program
 make clean
 ```
+
+`CXX`, `CXXFLAGS` and `LDFLAGS` can be set in the environment or on the make command line.
+`-std=c++17` is always added.
+
+Python tests (after installing the module): `pytest test_python_module.py test_skip_proportion.py`.
+
+The version is set in one place, `QPC_VERSION` in `QuartetPattern-counter-core.hpp`. `setup.py` reads it
+from there.
 
 `catch.hpp` (Catch2 v2.13.10 single header) is included. To use another copy, pass its directory:
 `make all CATCH2_DIR=/path/to/Catch2-single-header`.
@@ -95,6 +111,9 @@ while True:
 The arrays must have exactly these dtypes and be C-contiguous, otherwise an error is raised. Each
 call fills as many rows as possible and returns the number of filled rows. It returns 0 when all
 quartet combinations have been processed.
+
+Module attributes: `QPC.__version__` (e.g. `"1.8.0"`), and the symbol orders of the columns,
+`QPC.DNA_PATTERN_ORDER` (`"ACGT"`) and `QPC.AA_PATTERN_ORDER` (`"ACDEFGHIKLMNPQRSTVWY"`).
 
 Functions for the next batch:
 
@@ -182,8 +201,10 @@ output are the same as in version 1.1.
 |---|---|
 | `QuartetPattern-counter-core.hpp/.cpp` | Library |
 | `quartet-combination-generators.h` | Generators of the quartet combinations |
-| `QP_python_bindings.cpp`, `setup.py` | Python module |
+| `QP_python_bindings.cpp`, `setup.py`, `pyproject.toml`, `MANIFEST.in` | Python module |
 | `quartet-pattern-counter.cpp` | Stand-alone program |
-| `test-skip-proportion.cpp`, `test_skip_proportion.py` | Tests |
+| `test-skip-proportion.cpp`, `test_skip_proportion.py`, `test_python_module.py` | Tests |
+| `test-QuartetPattern-counter_catch2.cpp`, `catch.hpp` | Catch2 tests |
+| `.github/workflows/tests.yml` | Tests on GitHub Actions (Ubuntu and macOS) |
 | `QuartetPattern_PythonTester.py` | Python usage examples |
 | `simple_*.fas`, `random_12x200.fas` | Example and test alignments |

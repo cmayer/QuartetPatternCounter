@@ -1,0 +1,2 @@
+include *.h *.hpp *.cpp License.txt README.md
+include *.py *.fas
