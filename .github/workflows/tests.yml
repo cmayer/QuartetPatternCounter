@@ -1,0 +1,44 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.os }}, Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.10", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: C++ tests
+        run: make run_test_skip run_catch2_tests
+
+      - name: Stand-alone program
+        run: |
+          make standalone
+          ./quartet-pattern-counter simple_4.fas simple_4.npy
+          test -s simple_4.npy
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+
+      # Installing from the sdist also checks that MANIFEST.in includes all source files.
+      - name: Install from sdist
+        run: python -m pip install dist/*.tar.gz pytest
+
+      - name: Python tests
+        run: python -m pytest -v test_python_module.py test_skip_proportion.py

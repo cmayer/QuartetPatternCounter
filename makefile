@@ -1,7 +1,10 @@
 # Makefile for building both C++ tests and Python module
 
-CXX = g++
-CXXFLAGS = -std=c++17 -O3 -Wall -Wextra
+# CXX, CXXFLAGS and LDFLAGS can be set in the environment or on the command line.
+CXX ?= g++
+CXXFLAGS ?= -O3 -Wall -Wextra
+# C++17 is always required, also if CXXFLAGS comes from the environment.
+override CXXFLAGS := -std=c++17 $(CXXFLAGS)
 #CXXFLAGS = -std=c++17 -g3 -ggdb -Wall -Wextra
 
 
@@ -17,7 +20,7 @@ CXXFLAGS = -std=c++17 -O3 -Wall -Wextra
 standalone: quartet-pattern-counter
 
 quartet-pattern-counter: quartet-pattern-counter.cpp QuartetPattern-counter-core.cpp QuartetPattern-counter-core.hpp basic-DNA-RNA-AA-routines.h quartet-combination-generators.h
-	$(CXX) $(CXXFLAGS) -pthread -o quartet-pattern-counter quartet-pattern-counter.cpp QuartetPattern-counter-core.cpp
+	$(CXX) $(CXXFLAGS) -pthread -o quartet-pattern-counter quartet-pattern-counter.cpp QuartetPattern-counter-core.cpp $(LDFLAGS)
 
 # Run both tests and build Python module
 all: python run_test-QP-counter_catch2
@@ -34,7 +37,7 @@ run_test-QP-counter_catch2: test_QP-counter_catch2
 CATCH2_DIR ?= .
 
 test_QP-counter_catch2: test-QuartetPattern-counter_catch2.cpp QuartetPattern-counter-core.cpp QuartetPattern-counter-core.hpp
-	$(CXX) $(CXXFLAGS) -pthread -I$(CATCH2_DIR) -o test_QP-counter_catch2 test-QuartetPattern-counter_catch2.cpp QuartetPattern-counter-core.cpp
+	$(CXX) $(CXXFLAGS) -pthread -I$(CATCH2_DIR) -o test_QP-counter_catch2 test-QuartetPattern-counter_catch2.cpp QuartetPattern-counter-core.cpp $(LDFLAGS)
 
 # The Catch2 test cases in test-QuartetPattern-counter_catch2.cpp. They are compiled only if
 # CATCH_CONFIG_MAIN is defined. Then Catch2 provides main() instead of the hand-written one.
@@ -42,14 +45,14 @@ run_catch2_tests: catch2_tests
 	./catch2_tests
 
 catch2_tests: test-QuartetPattern-counter_catch2.cpp QuartetPattern-counter-core.cpp QuartetPattern-counter-core.hpp quartet-combination-generators.h
-	$(CXX) $(CXXFLAGS) -DCATCH_CONFIG_MAIN -pthread -I$(CATCH2_DIR) -o catch2_tests test-QuartetPattern-counter_catch2.cpp QuartetPattern-counter-core.cpp
+	$(CXX) $(CXXFLAGS) -DCATCH_CONFIG_MAIN -pthread -I$(CATCH2_DIR) -o catch2_tests test-QuartetPattern-counter_catch2.cpp QuartetPattern-counter-core.cpp $(LDFLAGS)
 
 # Tests of the skip_proportion option. Plain C++, no Catch2 needed.
 run_test_skip: test_skip_proportion
 	./test_skip_proportion
 
 test_skip_proportion: test-skip-proportion.cpp QuartetPattern-counter-core.cpp QuartetPattern-counter-core.hpp quartet-combination-generators.h
-	$(CXX) $(CXXFLAGS) -pthread -o test_skip_proportion test-skip-proportion.cpp QuartetPattern-counter-core.cpp
+	$(CXX) $(CXXFLAGS) -pthread -o test_skip_proportion test-skip-proportion.cpp QuartetPattern-counter-core.cpp $(LDFLAGS)
 
 # For Python module (requires pybind11)
 python: 

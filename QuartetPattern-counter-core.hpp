@@ -25,11 +25,15 @@
 //*******************************************************
 
 // ============================================================================
-// Quartet Pattern Counter Library, version 1.8
+// Quartet Pattern Counter Library
 // Pure C++ class exposted to Python using bybind11
 // ============================================================================
 #ifndef QuartetPatternCounter_core_H
 #define QuartetPatternCounter_core_H
+
+// The version of the library and the Python module (QuartetPatternCounterModule.__version__).
+// Change the version only here: setup.py reads it from this line.
+#define QPC_VERSION "1.8.0"
 
 #include <vector>
 #include <string>
