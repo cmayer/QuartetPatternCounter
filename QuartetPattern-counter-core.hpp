@@ -87,7 +87,7 @@ private:
 
 
 private:
-  void check_skip_proportion() const;
+  void check_constructor_arguments() const;
   bool next_quartet(Quartet_Combination_type &comb);
   specializedThreadsCollection create_specializedThreadsCollection_4nextBatch(float_type_freq*, uint32_t*, size_t, size_t &, uint16_t *);
 
@@ -105,10 +105,10 @@ public:
 
   // Constructor - four cluster quartets: generator_type is four_cluster_quartets
   QuartetPatternCounter(const std::string &filename,
-                        const int* partition1, size_t N1,
-                        const int* partition2, size_t N2,
-                        const int* partition3, size_t N3,
-                        const int* partition4, size_t N4,
+                        const int32_t* partition1, size_t N1,
+                        const int32_t* partition2, size_t N2,
+                        const int32_t* partition3, size_t N3,
+                        const int32_t* partition4, size_t N4,
                         char dataType='D', int numThreads=4, int verbosity=0,
                         double skip_proportion=0.0, uint64_t seed=default_seed);
 

@@ -425,6 +425,13 @@ TEST_CASE("Invalid input is rejected", "[QuartetPatternCounter][errors]")
     CHECK_THROWS_WITH(QuartetPatternCounter("simple_5.fas", 'D', 1, 0, 1.0), Contains("skip proportion"));
     CHECK_THROWS_WITH(QuartetPatternCounter("simple_5.fas", 'D', 1, 0, -0.5), Contains("skip proportion"));
   }
+  SECTION("Invalid number of threads")
+  {
+    CHECK_THROWS_WITH(QuartetPatternCounter("simple_5.fas", 'D', 0, 0), Contains("number of threads"));
+    CHECK_THROWS_WITH(QuartetPatternCounter("simple_5.fas", 'D', -1, 0), Contains("number of threads"));
+    int p1[] = {0}, p2[] = {1}, p3[] = {2}, p4[] = {3};
+    CHECK_THROWS_WITH(QuartetPatternCounter("simple_5.fas", p1, 1, p2, 1, p3, 1, p4, 1, 'D', 0, 0), Contains("number of threads"));
+  }
   SECTION("Skipping without quartet combination array")
   {
     QuartetPatternCounter qpc("simple_5.fas", 'D', 1, 0, 0.5);

@@ -165,6 +165,26 @@ def test_invalid_skip_proportion():
             raise AssertionError(f"Expected RuntimeError for {bad}")
 
 
+def test_partition_views_and_dtypes():
+    # Non-contiguous views and other integer types must give the same quartets as plain lists.
+    reference = run_all(make(partitions=([0, 10], [1], [2], [3])), 100)[0]
+    for p1 in (np.array([0, 5, 10, 11], dtype=np.int32)[::2],
+               np.array([0, 5, 10, 11], dtype=np.int64)[::2],
+               np.array([[0, 1], [10, 11]], dtype=np.int32)[:, 0],
+               np.array([0, 10], dtype=np.int16)):
+        assert run_all(make(partitions=(p1, [1], [2], [3])), 100)[0] == reference, (p1, p1.dtype)
+
+
+def test_invalid_number_of_threads():
+    for bad in (0, -1):
+        try:
+            make(threads=bad)
+        except RuntimeError as e:
+            assert "number of threads" in str(e)
+        else:
+            raise AssertionError(f"Expected RuntimeError for {bad} threads")
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_") and callable(fn):

@@ -44,6 +44,11 @@ typedef py::array_t<float_type_freq, py::array::c_style> freq_array;
 typedef py::array_t<uint32_t,        py::array::c_style> length_array;
 typedef py::array_t<uint16_t,        py::array::c_style> quartet_combination_array;
 
+// The partition arrays are only read. Other integer types (e.g. numpy's default int64) and
+// non-contiguous views (e.g. arr[::2]) are converted by pybind11 into a contiguous int32 copy.
+// Without c_style a view with the right dtype would be passed unchanged and read as if contiguous.
+typedef py::array_t<int32_t, py::array::c_style | py::array::forcecast> partition_array;
+
 class PyQuartetPatternCounter
 {
   private:
@@ -60,10 +65,10 @@ class PyQuartetPatternCounter
     
     static QuartetPatternCounter create_QuartetPatternCounter(
         const std::string &filename,
-        py::array_t<int> arr1, 
-        py::array_t<int> arr2,
-        py::array_t<int> arr3, 
-        py::array_t<int> arr4,
+        partition_array arr1, 
+        partition_array arr2,
+        partition_array arr3, 
+        partition_array arr4,
         char dataType, int numThreads, int verbosity,
         double skip_proportion, uint64_t seed
         )
@@ -85,10 +90,10 @@ class PyQuartetPatternCounter
         size_t size4 = buf4.size;
         
         // Extract pointers and sizes
-        const int* ptr1 = static_cast<const int*>(buf1.ptr);
-        const int* ptr2 = static_cast<const int*>(buf2.ptr);
-        const int* ptr3 = static_cast<const int*>(buf3.ptr);
-        const int* ptr4 = static_cast<const int*>(buf4.ptr);
+        const int32_t* ptr1 = static_cast<const int32_t*>(buf1.ptr);
+        const int32_t* ptr2 = static_cast<const int32_t*>(buf2.ptr);
+        const int32_t* ptr3 = static_cast<const int32_t*>(buf3.ptr);
+        const int32_t* ptr4 = static_cast<const int32_t*>(buf4.ptr);
         
         // Construct and return C++ object
         return QuartetPatternCounter(filename, ptr1, size1, ptr2, size2, ptr3, size3, ptr4, size4, dataType, numThreads, verbosity,
@@ -104,8 +109,8 @@ public:
 
     // Constructor for computing four cluster quartet frequencies
     PyQuartetPatternCounter(const std::string &filename,
-                py::array_t<int> partition1, py::array_t<int> partition2,
-                py::array_t<int> partition3, py::array_t<int> partition4,
+                partition_array partition1, partition_array partition2,
+                partition_array partition3, partition_array partition4,
                 char dataType, int numThreads, int verbosity,
                 double skip_proportion, uint64_t seed) : myQPcounter(create_QuartetPatternCounter(filename, partition1, partition2, partition3, partition4,
                                                                           dataType, numThreads, verbosity, skip_proportion, seed))
@@ -319,8 +324,8 @@ PYBIND11_MODULE(QuartetPatternCounterModule, m) {
 
         // Bind constructor for computing four cluster quartet frequencies
         .def(py::init<std::string,
-                     py::array_t<int>, py::array_t<int>,
-                     py::array_t<int>, py::array_t<int>, char, int, int, double, uint64_t>(), 
+                     partition_array, partition_array,
+                     partition_array, partition_array, char, int, int, double, uint64_t>(), 
              py::arg("filename"),
              py::arg("partition1"), py::arg("partition2"), py::arg("partition3"), py::arg("partition4"),
              py::arg("data_type"),

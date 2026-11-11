@@ -482,8 +482,11 @@ void read_fasta_file(const std::string &filename,
   // DataProcessor implementation
   // ============================================================================
   
-  void QuartetPatternCounter::check_skip_proportion() const
+  void QuartetPatternCounter::check_constructor_arguments() const
   {
+    // With 0 threads the thread collection has no slot to add work to.
+    if (numThreads < 1)
+      throw_error("The number of threads must be >= 1, but is ", numThreads, ".");
     // Written such that NaN is rejected as well.
     if (!(skip_proportion >= 0.0 && skip_proportion < 1.0))
       throw_error("The skip proportion must be >= 0 and < 1, but is ", skip_proportion, ".");
@@ -495,7 +498,7 @@ void read_fasta_file(const std::string &filename,
     skip_proportion(skip_proportion), rng(seed), total_quartets(0), quartets_consumed(0)
   {
     global_verbosity = verbosity;
-    check_skip_proportion();
+    check_constructor_arguments();
     
     if (dataType == 'D')
       num_cols = 256;
@@ -540,7 +543,7 @@ void read_fasta_file(const std::string &filename,
     skip_proportion(skip_proportion), rng(seed), total_quartets(0), quartets_consumed(0)
   {
     global_verbosity = verbosity;
-    check_skip_proportion();
+    check_constructor_arguments();
 
     if (dataType == 'D')
       num_cols = 256;
