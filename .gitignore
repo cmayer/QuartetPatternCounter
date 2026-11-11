@@ -1,0 +1,17 @@
+# Build products
+quartet-pattern-counter
+test_QP-counter_catch2
+test_skip_proportion
+*.o
+*.so
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+
+# Editor backups
+*~
+
+# Local Claude Code session data
+.claude/
+catch2_tests
