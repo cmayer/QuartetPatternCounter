@@ -1,4 +1,5 @@
 // Copyright 2026, Dr. Christoph Mayer, LIB Bonn, Germany
+// Contributors: see README.md
 // License: see License.txt
 
 // quartet-pattern-counter v1.8, stand-alone program

@@ -3,6 +3,7 @@
 #*******************************************************
 # BSD license:
 # Copyright 2026, Dr. Christoph Mayer, LIB Bonn, Germany
+# Contributors: see README.md
 # See License.txt for the full license text.
 #*******************************************************
 
