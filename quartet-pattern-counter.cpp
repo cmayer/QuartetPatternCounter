@@ -26,7 +26,6 @@
 #include "QuartetPattern-counter-core.hpp"
 
 // Defined in QuartetPattern-counter-core.cpp, not exported in the header.
-extern char order_of_AA_site_patterns;
 int32_t count_four_sequences_patterns_DNA(const char *s1, const char *s2, const char *s3, const char *s4,
                                           unsigned alignment_length, float_type_freq *pfreqs);
 int32_t count_four_sequences_patterns_AA(const char *s1, const char *s2, const char *s3, const char *s4,
@@ -35,7 +34,8 @@ void read_fasta_file(const std::string &filename,
                      std::unordered_map<std::string, std::string> &fastamap,
                      std::vector<std::string> &namevec,
                      std::vector<const char *> &pointers_to_sequences,
-                     char dataType);
+                     char dataType,
+                     char order_of_AA_site_patterns);
 
 // Writes a 1-dimensional float32 numpy array (.npy format version 1.0).
 bool save_float_vector_as_numpy(const char *filename, const std::vector<float> &v)
@@ -86,14 +86,13 @@ int main(int argc, char **argv)
     exit(-1);
   }
 
-  order_of_AA_site_patterns = 'a'; // Alphabetical, the order of v1.1.
   std::unordered_map<std::string, std::string> fastamap;
   std::vector<std::string> names;
   std::vector<const char *> seqs;
   try
   {
     // Checks for duplicate names and equal lengths.
-    read_fasta_file(filename, fastamap, names, seqs, dataType_protein ? 'P' : 'D');
+    read_fasta_file(filename, fastamap, names, seqs, dataType_protein ? 'P' : 'D', 'a'); // Alphabetical, the order of v1.1.
   }
   catch (const std::exception &e)
   {

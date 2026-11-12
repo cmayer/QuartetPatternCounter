@@ -54,8 +54,6 @@ template <typename... Args>
 
 int global_verbosity = 10;
 
-char order_of_AA_site_patterns = 'a'; // 'a': alphabetical, 'p': paml
-
 //*********************************************
 // Helper functions. Not exposed globally.
 //*********************************************
@@ -424,8 +422,12 @@ void read_fasta_file(const std::string &filename,
                      std::unordered_map<std::string, std::string> &fastamap,
                      std::vector<std::string> &namevec,
                      std::vector<const char *> &pointers_to_sequences,
-                     char dataType)
+                     char dataType,
+                     char order_of_AA_site_patterns) // 'a': alphabetical, 'p': paml. Only used for proteins.
 {
+  if (order_of_AA_site_patterns != 'a' && order_of_AA_site_patterns != 'p')
+    throw_error("Unknown order of amino acid site patterns: ", order_of_AA_site_patterns, " (must be a or p).");
+
   read_fasta_file_into_map_remove_spaces(filename, fastamap, namevec);
   if (namevec.empty())
     throw_error("No sequences read from the input file ", filename, ".");
@@ -510,7 +512,8 @@ void read_fasta_file(const std::string &filename,
       throw_error("Unknown data type in QuartetPatternCounter constructor: ", dataType, " (must be D or P).");
     }
     
-    read_fasta_file(current_filename, fasta_map_string, seq_names, pointers_to_sequences, dataType);
+    // Only the alphabetical order of amino acids is offered (AA_PATTERN_ORDER in the Python module).
+    read_fasta_file(current_filename, fasta_map_string, seq_names, pointers_to_sequences, dataType, 'a');
 
     num_sequences = (int32_t)seq_names.size();
     alignment_length        = (uint32_t)fasta_map_string[seq_names[0]].length();
@@ -555,7 +558,8 @@ void read_fasta_file(const std::string &filename,
       throw_error("Unknown data type in QuartetPatternCounter constructor: ", dataType, " (must be D or P).");
     }
 
-    read_fasta_file(current_filename, fasta_map_string, seq_names, pointers_to_sequences, dataType);
+    // Only the alphabetical order of amino acids is offered (AA_PATTERN_ORDER in the Python module).
+    read_fasta_file(current_filename, fasta_map_string, seq_names, pointers_to_sequences, dataType, 'a');
 
     num_sequences = (int32_t)seq_names.size();
     alignment_length        = (uint32_t)fasta_map_string[seq_names[0]].length();

@@ -36,8 +36,6 @@
 #include "symbol-cartesian-product_string.h"
 #include <iomanip>
 
-extern char order_of_AA_site_patterns; // 'a': alphabetical, 'p': paml
-
 // Helper to create test file
 void create_test_file(const std::string& filename, const std::vector<double>& data)
 {
@@ -57,10 +55,8 @@ void print_pattern_frequencies_and_lengths_DEBUG(std::ostream &os, float_type_fr
 
   if (dataType == 'P')
   {
-    if (order_of_AA_site_patterns == 'a')
-      cp.operator()(4, "ACDEFGHIKLMNPQRSTVWY", all_patterns);
-    else
-      cp.operator()(4, "ARNDCQEGHILKMFPSTWYV", all_patterns);
+    // The QuartetPatternCounter uses only the alphabetical order of amino acids.
+    cp.operator()(4, "ACDEFGHIKLMNPQRSTVWY", all_patterns);
     num_cols = 160000;
   }
   else
