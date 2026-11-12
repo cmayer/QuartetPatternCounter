@@ -1,7 +1,7 @@
 # Quartet Pattern Counter (QPC)
 
 Author: Dr. Christoph Mayer, Leibniz Institute for the Analysis of Biodiversity Change\
-Contributors: Nikita Kulikov, Dr. Iker Irisarri, Anestis Gkanogiannis, Claude (Anthropic) (see [Acknowledgements](#acknowledgements))\
+Contributors: Nikita Kulikov, Dr. Iker Irisarri, Dr. Anestis Gkanogiannis, Claude (Anthropic) (see [Acknowledgements](#acknowledgements))\
 Version 1.8
 
 The Quartet Pattern Counter determines site pattern frequencies of quartets
@@ -219,6 +219,6 @@ output are the same as in version 1.1.
 The Quartet Pattern Counter is used by DeepNNPhylogeny, developed by Nikita Kulikov with
 contributions of Dr. Iker Irisarri and Dr. Christoph Mayer. Nikita Kulikov and Dr. Iker Irisarri
 suggested many of the features of the Quartet Pattern Counter.
-Anestis Gkanogiannis prepared the package for bioconda and set up the tests on GitHub Actions.
+Dr. Anestis Gkanogiannis prepared the package for bioconda and set up the tests on GitHub Actions.
 Claude, an AI assistant by Anthropic (via Claude Code), reviewed the code, fixed bugs, implemented
 the skip_proportion option, wrote tests and helped with the documentation.
